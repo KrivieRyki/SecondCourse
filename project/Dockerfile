@@ -18,7 +18,7 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-# add app
+# add course_fast_api
 COPY . .
 
 # add entrypoint.sh
