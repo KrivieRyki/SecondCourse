@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import List, Union
 
 from course_fast_api.models.pydantic import SummaryPayloadSchema
 from course_fast_api.models.tortoise import TextSummary
@@ -7,7 +7,7 @@ from course_fast_api.models.tortoise import TextSummary
 async def post(payload: SummaryPayloadSchema) -> int:
     summary = TextSummary(
         url=payload.url,
-        summary='dummy summary',
+        summary="dummy summary",
     )
     await summary.save()
     return summary.id

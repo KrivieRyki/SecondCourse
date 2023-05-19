@@ -4,8 +4,7 @@ import pytest
 from starlette.testclient import TestClient
 from tortoise.contrib.fastapi import register_tortoise
 
-from course_fast_api import main
-from course_fast_api.config import get_settings, Settings
+from course_fast_api.config import Settings, get_settings
 from course_fast_api.main import create_application
 
 
@@ -28,8 +27,8 @@ def test_app_with_db():
     app.dependency_overrides[get_settings] = get_settings_override
     register_tortoise(
         app,
-        db_url=os.environ.get('DATABASE_TEST_URL'),
-        modules={'models': ['course_fast_api.models.tortoise']},
+        db_url=os.environ.get("DATABASE_TEST_URL"),
+        modules={"models": ["course_fast_api.models.tortoise"]},
         generate_schemas=True,
         add_exception_handlers=True,
     )

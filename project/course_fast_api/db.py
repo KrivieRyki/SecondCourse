@@ -8,14 +8,13 @@ from tortoise.contrib.fastapi import register_tortoise
 log = logging.getLogger("uvicorn")
 
 TORTOISE_ORM = {
-    'connections': {'default': os.environ.get('DATABASE_URL')},
-    'apps': {
-        'models': {
-            'models': ['course_fast_api.models.tortoise', 'aerich.models'],
-            'default_connection': 'default',
+    "connections": {"default": os.environ.get("DATABASE_URL")},
+    "apps": {
+        "models": {
+            "models": ["course_fast_api.models.tortoise", "aerich.models"],
+            "default_connection": "default",
         },
     },
-
 }
 
 
@@ -30,15 +29,16 @@ def init_db(app: FastAPI) -> None:
 
 
 async def generate_schema() -> None:
-    log.info('Initializing Tortoise...')
+    log.info("Initializing Tortoise...")
 
     await Tortoise.init(
-        db_url=os.environ.get('DATABASE_URL'),
-        modules={'models':['models.tortoise']},
+        db_url=os.environ.get("DATABASE_URL"),
+        modules={"models": ["models.tortoise"]},
     )
-    log.info('Generate database schems via Tortoise...')
+    log.info("Generate database schems via Tortoise...")
     await Tortoise.generate_schemas()
     await Tortoise.close_connections()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     run_async(generate_schema())
