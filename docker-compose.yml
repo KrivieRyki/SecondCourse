@@ -10,7 +10,7 @@ services:
       - 8004:8000
     environment:
       - ENVIRONOMAENT=dev
-      - TESTING=0
+      - TESTING=1
       - DATABASE_URL=postgres://postgres:postgres@web-db:5432/web_dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@web-db:5432/web_test
       - COMPOSE_CONVERT_WINDOWS_PATHS=1

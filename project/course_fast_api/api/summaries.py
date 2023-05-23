@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, HTTPException, Path
+from starlette.background import BackgroundTasks
 
 from course_fast_api.api import crud
 from course_fast_api.models.pydantic import (
@@ -9,13 +10,18 @@ from course_fast_api.models.pydantic import (
     SummaryUpdatePayloadSchema,
 )
 from course_fast_api.models.tortoise import SummarySchema
+from course_fast_api.summarizer import generate_summary
 
 router = APIRouter()
 
 
 @router.post("/", response_model=SummaryResponseSchema, status_code=201)
-async def create_summary(payload: SummaryPayloadSchema) -> SummaryResponseSchema:
+async def create_summary(
+    payload: SummaryPayloadSchema, background_tasks: BackgroundTasks
+) -> SummaryResponseSchema:
     summary_id = await crud.post(payload)
+
+    background_tasks.add_task(generate_summary, summary_id, payload.url)
 
     response_object = {"id": summary_id, "url": payload.url}
     return response_object
